@@ -1,70 +1,82 @@
 
+import 'package:day_flow/screens/activity_screen.dart';
+import 'package:day_flow/screens/summary_screen.dart';
+import 'package:day_flow/screens/timer_screen.dart';
 import 'package:flutter/material.dart';
-import 'package:test_app/screens/activity_screen.dart';
-import 'package:test_app/screens/summary_screen.dart';
-import 'package:test_app/screens/timer_screen.dart';
 
 class DashBoardScreen extends StatelessWidget {
   const DashBoardScreen({super.key});
+  
+  List<Activity> get _activities => [];
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: const Color(0xFF121111),
       appBar: AppBar(
-        backgroundColor: Colors.deepPurpleAccent,
+        // backgroundColor: Colors.deepPurpleAccent,
+        backgroundColor: Colors.white,
         title: const Text('Daily Activities',
-          style: TextStyle(fontSize: 22,fontWeight: FontWeight.w600,color: Colors.white,),
+          style: TextStyle(fontSize: 22,fontWeight: FontWeight.w600,color: Colors.black,),
         ),
         centerTitle: true,
       ),
-      body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 30),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            const Text('What would you like to do?',style: TextStyle(color: Colors.white70,fontSize: 16,),),
-            const SizedBox(height: 24),
-            _DashboardCard(
-              icon: Icons.checklist_rounded,
-              title: 'Activities List',
-              subtitle: 'View and manage your daily tasks',
-              color: Colors.deepPurple,
-              onTap: () {
-                Navigator.push(context, MaterialPageRoute(builder:(context) => ActivityScreen()));
-              },
-            ),
-            const SizedBox(height: 16),
+      body: Stack(
+        children: [
+            Positioned.fill(
+            child: Image.asset('assets/icons/home.jpg',fit: BoxFit.cover,),
+         ),
 
-            _DashboardCard(
-              icon: Icons.timer_rounded,
-              title: 'Study Timer',
-              subtitle: 'Focus with a countdown timer',
-              color: Colors.teal,
-              onTap: () {
-                Navigator.push(context, MaterialPageRoute(builder:(context) => StudyTimerScreen()));
-              },
-            ),
-            const SizedBox(height: 16),
-
-            _DashboardCard(
-              icon: Icons.bar_chart_rounded,
-              title: 'Daily Summary',
-              subtitle: 'Track your progress for today',
-              color: Colors.orange,
-              onTap: () {
-                Navigator.push(context, MaterialPageRoute(builder:(context) => SummaryScreen()));
-              },
-            ),
-          ],
+     Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 30),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              const Text('What would you like to do?',style: TextStyle(color: Colors.white70,fontSize: 16,),),
+              const SizedBox(height: 24),
+              _DashboardCard(
+                // icon: Icons.checklist_rounded,
+                icon: 'assets/icons/list.png',
+                title: 'Activities List',
+                subtitle: 'View and manage your daily tasks',
+                color: Colors.deepPurple,
+                onTap: () {
+                  Navigator.push(context, MaterialPageRoute(builder:(context) => ActivityScreen()));
+                },
+              ),
+              const SizedBox(height: 16),
+        
+              _DashboardCard(
+                icon: 'assets/icons/timer.png',
+                title: 'Study Timer',
+                subtitle: 'Focus with a countdown timer',
+                color: Colors.teal,
+                onTap: () {
+                  Navigator.push(context, MaterialPageRoute(builder:(context) => StudyTimerScreen()));
+                },
+              ),
+              const SizedBox(height: 16),
+        
+              _DashboardCard(
+                icon: 'assets/icons/summary.png',
+                title: 'Daily Summary',
+                subtitle: 'Track your progress for today',
+                color: Colors.orange,
+                onTap: () {
+                  Navigator.push(context, MaterialPageRoute(builder:(context) => SummaryScreen(activities: _activities)));
+                },
+              ),
+            ],
+          ),
         ),
+        ]
       ),
     );
   }
 }
 
 class _DashboardCard extends StatelessWidget {
-  final IconData icon;
+  final String icon;
   final String title;
   final String subtitle;
   final Color color;
@@ -86,7 +98,7 @@ class _DashboardCard extends StatelessWidget {
       child: Container(
         padding: const EdgeInsets.all(20),
         decoration: BoxDecoration(
-          color: const Color(0xFF1E1E1E),
+          color: Colors.transparent,
           borderRadius: BorderRadius.circular(16),
           border: Border.all(color: color.withOpacity(0.4), width: 1.5),
         ),
@@ -98,7 +110,9 @@ class _DashboardCard extends StatelessWidget {
                 color: color.withOpacity(0.15),
                 shape: BoxShape.circle,
               ),
-              child: Icon(icon, color: color, size: 28),
+              // child: Icon(icon, color: color, size: 28),
+              child: Image.asset(icon,height: 28,width: 28,
+              colorBlendMode: BlendMode.srcIn,color: color,),
             ),
             const SizedBox(width: 16),
             // Text
@@ -118,7 +132,8 @@ class _DashboardCard extends StatelessWidget {
                 ],
               ),
             ),
-            Icon(Icons.arrow_forward_ios_rounded,color: color, size: 16),
+             Image.asset('assets/icons/right_arrow.png',height: 15.5,width: 15.5,
+              colorBlendMode: BlendMode.srcIn,color: color,)
           ],
         ),
       ),

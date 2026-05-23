@@ -1,5 +1,5 @@
+import 'package:day_flow/screens/dashboard_screen.dart';
 import 'package:flutter/material.dart';
-import 'package:test_app/screens/dashboard_screen.dart';
 
 void main() {
   runApp(const FlutterApp());

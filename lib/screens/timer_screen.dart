@@ -86,34 +86,6 @@ class _StudyTimerScreenState extends State<StudyTimerScreen>
     });
   }
 
-  void _showFinishedDialog() {
-    showDialog(
-      context: context,
-      builder: (_) => AlertDialog(
-        backgroundColor: const Color(0xFF1E1E1E),
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
-        title: const Text('Time is Up!',
-            style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold)),
-        content: const Text('Great job! Take a short break and come back stronger.',
-          style: TextStyle(color: Colors.white70),
-        ),
-        actions: [
-          TextButton(
-            onPressed: () {
-              Navigator.pop(context);
-              _resetTimer();
-            },
-            child:const Text('Reset', style: TextStyle(color: Colors.redAccent)),
-          ),
-          ElevatedButton(
-            style: ElevatedButton.styleFrom(backgroundColor: Colors.teal),
-            onPressed: () => Navigator.pop(context),
-            child:const Text('OK', style: TextStyle(color: Colors.white)),
-          ),
-        ],
-      ),
-    );
-  }
 
   String get _formattedTime {
     final m = (_remainingSeconds ~/ 60).toString().padLeft(2, '0');
@@ -136,13 +108,17 @@ class _StudyTimerScreenState extends State<StudyTimerScreen>
       backgroundColor: const Color(0xFF121111),
       appBar: AppBar(
         backgroundColor: Colors.teal,
-        title: const Text(
-          'Study Timer',
-          style: TextStyle(
-              fontSize: 22, fontWeight: FontWeight.w600, color: Colors.white),
+        title: const Text('Study Timer',
+          style: TextStyle(fontSize: 22, fontWeight: FontWeight.w600, color: Colors.white),
         ),
         centerTitle: true,
-        iconTheme: const IconThemeData(color: Colors.white),
+        // iconTheme: const IconThemeData(color: Colors.white),
+        leading: GestureDetector(
+          onTap: ()=>Navigator.pop(context),
+          child: Padding(padding: EdgeInsets.all(12),
+          child: Image.asset('assets/icons/back.png',height:24,width: 24,color: Colors.white,colorBlendMode: BlendMode.srcIn,
+      ),),
+        ),
       ),
       body: SingleChildScrollView(
         padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 32),
@@ -166,7 +142,7 @@ class _StudyTimerScreenState extends State<StudyTimerScreen>
             const SizedBox(height: 24),
             AnimatedBuilder(
               animation: _pulseController,
-              builder: (_, __) => Opacity(
+              builder: (_, _) => Opacity(
                 opacity: _isRunning
                     ? 0.5 + 0.5 * _pulseController.value
                     : 1.0,
@@ -293,6 +269,35 @@ class _StudyTimerScreenState extends State<StudyTimerScreen>
       ],
     );
   }
+    void _showFinishedDialog() {
+    showDialog(
+      context: context,
+      builder: (_) => AlertDialog(
+        backgroundColor: const Color(0xFF1E1E1E),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+        title: const Text('Time is Up!',
+            style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold)),
+        content: const Text('Great job! Take a short break and come back stronger.',
+          style: TextStyle(color: Colors.white70),
+        ),
+        actions: [
+          TextButton(
+            onPressed: () {
+              Navigator.pop(context);
+              _resetTimer();
+            },
+            child:const Text('Reset', style: TextStyle(color: Colors.redAccent)),
+          ),
+          ElevatedButton(
+            style: ElevatedButton.styleFrom(backgroundColor: Colors.teal),
+            onPressed: () => Navigator.pop(context),
+            child:const Text('OK', style: TextStyle(color: Colors.white)),
+          ),
+        ],
+      ),
+    );
+  }
+
 }
 
 class _ControlButton extends StatelessWidget {
