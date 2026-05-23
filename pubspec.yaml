@@ -1,5 +1,5 @@
 name: day_flow
-description: "A new Flutter project."
+description: "DayFlow is a personal productivity app that helps you stay organized and focused throughout your day. It lets you manage your daily activities, track your progress, and stay on schedule with a built-in study timer — all in one place."
 # The following line prevents the package from being accidentally published to
 # pub.dev using `flutter pub publish`. This is preferred for private packages.
 publish_to: 'none' # Remove this line if you wish to publish to pub.dev
