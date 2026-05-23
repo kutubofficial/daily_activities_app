@@ -1,4 +1,4 @@
-import 'package:day_flow/screens/activity_screen.dart';
+import 'package:day_flow/models/activity.dart';
 import 'package:flutter/material.dart';
 
 class SummaryScreen extends StatefulWidget {
@@ -139,8 +139,7 @@ class _SummaryScreenState extends State<SummaryScreen> {
 
             Row(
               children: [
-                const Icon(Icons.calendar_today_rounded,
-                    color: Colors.orange, size: 15),
+                    Image.asset('assets/icons/calendar.png', height: 15,width: 15,color: Colors.orange,),
                 const SizedBox(width: 8),
                 Text(
                   _formatSelectedDate(_selectedDate),
@@ -301,7 +300,7 @@ class _SummaryScreenState extends State<SummaryScreen> {
                     ),
                     if (hasData)
                       Positioned(
-                        bottom: 4,
+                        bottom: 7,
                         child: Container(
                           width: 4,
                           height: 4,
@@ -325,7 +324,7 @@ class _SummaryScreenState extends State<SummaryScreen> {
           child: _StatCard(
             label: 'Total',
             value: '$_totalCount',
-            icon: Icons.list_alt_rounded,
+            icon: 'assets/icons/total.png',
             color: Colors.orange,
           ),
         ),
@@ -334,7 +333,7 @@ class _SummaryScreenState extends State<SummaryScreen> {
           child: _StatCard(
             label: 'Done',
             value: '$_doneCount',
-            icon: Icons.check_circle_rounded,
+            icon: 'assets/icons/done.png',
             color: Colors.greenAccent,
           ),
         ),
@@ -343,7 +342,7 @@ class _SummaryScreenState extends State<SummaryScreen> {
           child: _StatCard(
             label: 'Pending',
             value: '$_pendingCount',
-            icon: Icons.pending_rounded,
+            icon: 'assets/icons/pending.png',
             color: Colors.redAccent,
           ),
         ),
@@ -576,7 +575,7 @@ class _SummaryScreenState extends State<SummaryScreen> {
 class _StatCard extends StatelessWidget {
   final String label;
   final String value;
-  final IconData icon;
+  final String icon;
   final Color color;
 
   const _StatCard({
@@ -597,14 +596,14 @@ class _StatCard extends StatelessWidget {
       ),
       child: Column(
         children: [
-          Icon(icon, color: color, size: 24),
-          const SizedBox(height: 8),
-          Text(value,
-            style: TextStyle(color: color, fontSize: 22, fontWeight: FontWeight.bold),
-          ),
-          const SizedBox(height: 4),
-          Text(label,
-              style: const TextStyle(color: Colors.white38, fontSize: 11)),
+          // Icon(icon, color: color, size: 24),
+          Row(children:[
+            Image.asset(icon, height:18,width: 18,color: color,),
+            SizedBox(width: 10,),
+          Text(label,style: const TextStyle(color: Colors.white, fontSize: 16)),
+          ] ),
+          const SizedBox(height: 10),
+          Text(value,style: TextStyle(color: color, fontSize: 30, fontWeight: FontWeight.bold),),
         ],
       ),
     );

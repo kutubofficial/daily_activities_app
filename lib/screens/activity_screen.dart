@@ -1,20 +1,22 @@
 import 'package:flutter/material.dart';
+import 'package:hive/hive.dart';
+import 'package:day_flow/models/activity.dart';
 
-class Activity {
-  final String id;
-  String title;
-  String category;
-  bool isDone;
-  final DateTime createdAt;
+// class Activity extends HiveObject {
+//   final String id;
+//   String title;
+//   String category;
+//   bool isDone;
+//   final DateTime createdAt;
 
-  Activity({
-    required this.id,
-    required this.title,
-    required this.category,
-    this.isDone = false,
-    required this.createdAt,
-  });
-}
+//   Activity({
+//     required this.id,
+//     required this.title,
+//     required this.category,
+//     this.isDone = false,
+//     required this.createdAt,
+//   });
+// }
 
 class ActivityScreen extends StatefulWidget {
   const ActivityScreen({super.key});
@@ -24,20 +26,7 @@ class ActivityScreen extends StatefulWidget {
 }
 
 class _ActivityScreenState extends State<ActivityScreen> {
-  final List<Activity> _activities = [
-    // Activity(
-    //   id: '1',
-    //   title: 'Flutter theory and interview questions',
-    //   category: 'Learning',
-    //   createdAt: DateTime.now(),
-    // ),
-    // Activity(
-    //   id: '2',
-    //   title: 'fix bugs - 30 mins',
-    //   category: 'Work',
-    //   createdAt: DateTime.now(),
-    // ),
-  ];
+   late Box<Activity> _box;
 
   String _selectedFilter = 'All';
   final List<String> _filters = ['All', 'What to do', 'What you done'];
@@ -49,17 +38,23 @@ class _ActivityScreenState extends State<ActivityScreen> {
     'Work',
   ];
 
-  List<Activity> get _filteredActivities {
+ List<Activity> get _filteredActivities {
+    final all = _box.values.toList();
     if (_selectedFilter == 'What to do') {
-      return _activities.where((a) => !a.isDone).toList();
+      return all.where((a) => !a.isDone).toList();
     } else if (_selectedFilter == 'What you done') {
-      return _activities.where((a) => a.isDone).toList();
+      return all.where((a) => a.isDone).toList();
     }
-    return _activities;
+    return all;
   }
 
-  int get _doneCount => _activities.where((a) => a.isDone).length;
+ int get _doneCount => _box.values.where((a) => a.isDone).length;
 
+@override
+void initState(){
+  super.initState();
+  _box = Hive.box<Activity>('activities');
+}
   @override
   Widget build(BuildContext context) {
     final filtered = _filteredActivities;
@@ -143,7 +138,7 @@ class _ActivityScreenState extends State<ActivityScreen> {
   }
 
   Widget _buildProgressCard() {
-    final total = _activities.length;
+    final total = _box.values.length;
     final done = _doneCount;
     final progress = total == 0 ? 0.0 : done / total;
 
@@ -224,8 +219,11 @@ class _ActivityScreenState extends State<ActivityScreen> {
         child: Row(
           children: [
             GestureDetector(
-              onTap: () =>
-                  setState(() => activity.isDone = !activity.isDone),
+              onTap: (){
+                activity.isDone = !activity.isDone;
+                activity.save();
+                setState(() {});
+              },
               child: AnimatedContainer(
                 duration: const Duration(milliseconds: 200),
                 width: 26,
@@ -326,7 +324,7 @@ class _ActivityScreenState extends State<ActivityScreen> {
                       const Text('Add New Activity',
                         style: TextStyle(color: Colors.white,fontSize: 18,fontWeight: FontWeight.bold,),),
                       IconButton(
-                        onPressed: () => Navigator.pop(context),
+                        onPressed: ()=>Navigator.pop(context),
                         icon: const Icon(Icons.close, color: Colors.white54),
                       ),
                     ],
@@ -390,18 +388,18 @@ class _ActivityScreenState extends State<ActivityScreen> {
                         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12),),
                       ),
                       onPressed: () {
-                        final title = titleController.text.trim();
-                        if (title.isEmpty) return;
-                        setState(() {
-                          _activities.add(Activity(
-                            id: DateTime.now().millisecondsSinceEpoch.toString(),
-                            title: title,
-                            category: selectedCategory,
-                            createdAt: DateTime.now(),
-                          ));
-                        });
-                        Navigator.pop(context);
-                      },
+                          final title = titleController.text.trim();
+                          if (title.isEmpty) return;
+                          final activity = Activity(
+                          id: DateTime.now().millisecondsSinceEpoch.toString(),
+                          title: title,
+                          category: selectedCategory,
+                          createdAt: DateTime.now(),
+                        );
+                          _box.put(activity.id, activity);
+                            setState(() {});
+                            Navigator.pop(context);
+                          },
                       child: const Text('Add Activity',
                         style: TextStyle(color: Colors.white,fontSize: 16,fontWeight: FontWeight.w600,
                         ),
@@ -438,7 +436,9 @@ class _ActivityScreenState extends State<ActivityScreen> {
           ElevatedButton(
             style: ElevatedButton.styleFrom(backgroundColor: Colors.redAccent),
             onPressed: () {
-              setState(() => _activities.removeWhere((a) => a.id == id));
+              // setState(() => _activities.removeWhere((a) => a.id == id));
+              _box.delete(id);
+              setState(() {});
               Navigator.pop(context);
             },
             child: const Text('Delete',style: TextStyle(color: Colors.white)),

@@ -1,13 +1,15 @@
 
+import 'package:day_flow/models/activity.dart';
 import 'package:day_flow/screens/activity_screen.dart';
 import 'package:day_flow/screens/summary_screen.dart';
 import 'package:day_flow/screens/timer_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:hive/hive.dart';
 
 class DashBoardScreen extends StatelessWidget {
   const DashBoardScreen({super.key});
   
-  List<Activity> get _activities => [];
+  List<Activity> get _activities => Hive.box<Activity>('activities').values.toList();
 
   @override
   Widget build(BuildContext context) {
