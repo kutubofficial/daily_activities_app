@@ -102,14 +102,16 @@ class _DashboardCard extends StatelessWidget {
         decoration: BoxDecoration(
           color: Colors.transparent,
           borderRadius: BorderRadius.circular(16),
-          border: Border.all(color: color.withOpacity(0.4), width: 1.5),
+          // border: Border.all(color: color.withOpacity(0.4), width: 1.5),
+          border: Border.all(color: color.withValues(alpha: 0.4), width: 1.5),
         ),
         child: Row(
           children: [
             Container(
               padding: const EdgeInsets.all(14),
               decoration: BoxDecoration(
-                color: color.withOpacity(0.15),
+                // color: color.withOpacity(0.15),
+                color: color.withValues(alpha: 0.15),
                 shape: BoxShape.circle,
               ),
               // child: Icon(icon, color: color, size: 28),

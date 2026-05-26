@@ -324,7 +324,8 @@ class _ControlButton extends StatelessWidget {
         height: size,
         decoration: BoxDecoration(color: color,shape: BoxShape.circle,
           boxShadow: [
-            BoxShadow(color: color.withOpacity(0.35),blurRadius: 12,spreadRadius: 2,),
+            // BoxShadow(color: color.withOpacity(0.35),blurRadius: 12,spreadRadius: 2,),
+            BoxShadow(color: color.withValues(alpha: 0.35),blurRadius: 12,spreadRadius: 2,),
           ],
         ),
         child: Icon(icon, color: Colors.white, size: iconSize),
