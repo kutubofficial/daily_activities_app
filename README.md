@@ -33,7 +33,7 @@ DayFlow is designed for people who want a simple, lightweight way to manage thei
 
 ## 📸 Screenshots
 
-<img width="386" height="428" alt="Image" src="https://github.com/user-attachments/assets/419d7571-ca70-44bd-85ad-223a820d1715" />
+<img width="400" height="752" alt="Image" src="https://github.com/user-attachments/assets/b931b20b-a338-4700-a626-abfd8b135c9b" />
 ---
 
 ## 🚀 Getting Started
