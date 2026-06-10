@@ -33,11 +33,7 @@ DayFlow is designed for people who want a simple, lightweight way to manage thei
 
 ## 📸 Screenshots
 
-<!-- Add your screenshots here -->
-| Home | Activities | Timer |
-|---|---|---|
-| ![Home](screenshots/home.png) | ![Activities](screenshots/activities.png) | ![Timer](screenshots/timer.png) |
-
+<img width="386" height="428" alt="Image" src="https://github.com/user-attachments/assets/419d7571-ca70-44bd-85ad-223a820d1715" />
 ---
 
 ## 🚀 Getting Started
